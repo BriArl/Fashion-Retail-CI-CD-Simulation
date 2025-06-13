@@ -1,0 +1,6 @@
+promo_id,category,store,discount_percent,start_date,end_date
+P001,Dresses,Barcelona,20,2025-06-15,2025-06-30
+P002,Shoes,Madrid,15,2025-06-20,2025-06-25
+P003,Tops,Online,10,2025-06-10,2025-06-17
+P004,Dresses,Madrid,25,2025-07-01,2025-07-10
+P005,Shoes,Online,5,2025-07-01,2025-07-05
