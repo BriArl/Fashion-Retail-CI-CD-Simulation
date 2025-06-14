@@ -4,11 +4,25 @@ from app.validator import validate_promos
 from app.deployer import deploy_promos
 
 def upload_and_preview():
-    uploaded_file = st.file_uploader("Upload Promo Rules CSV", type=['csv'])
+    st.sidebar.markdown("### Demo Options")
+    use_sample = st.sidebar.button("Load Sample Promo Data")
 
-    if uploaded_file:
-        df = pd.read_csv(uploaded_file)
-        st.write("Preview of Uploaded Promo Rules:")
+    df = None
+
+    if use_sample:
+        sample_path = os.path.join("data", "sample_promos.csv")
+        try:
+            df = pd.read_csv(sample_path)
+            st.info("Loaded sample data from sample_promos.csv")
+        except FileNotFoundError:
+            st.error("Sample file not found. Make sure 'data/sample_promos.csv' exists.")
+    else:
+        uploaded_file = st.file_uploader("Upload Promo Rules CSV", type=['csv'])
+        if uploaded_file:
+            df = pd.read_csv(uploaded_file)
+
+    if df is not None:
+        st.write("### Preview of Promo Rules")
         st.dataframe(df)
 
         is_valid, report = validate_promos(df)
@@ -17,7 +31,6 @@ def upload_and_preview():
             if st.button("Deploy Promotions"):
                 deploy_promos(df)
                 st.success("Promotions deployed successfully.")
-
         else:
             st.error("Validation errors found:")
             st.json(report)
